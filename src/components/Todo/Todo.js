@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import TodoList from "../TodoList/TodoList"
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 
@@ -25,6 +26,7 @@ class Todo extends Component {
             color="primary"
           />
   
+          <TodoList todos={this.state.todos}  />
         </div>
       </Container>
     )
