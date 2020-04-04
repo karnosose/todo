@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import TodoList from "../TodoList/TodoList"
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
 
-import useStyle from "./Todo.style"
+import useStyle from "./Todo.style";
+
+import {TodosContext} from "../../context"
 
 function Todo () {
+
   const classes = useStyle();
 
   let todoList = [
@@ -32,9 +35,10 @@ function Todo () {
       setTitle('');
     }
   }
-
+  const stateValue = {todos, setTodos}
   return (
-    <Container maxWidth="lg">
+    <TodosContext.Provider value={stateValue}>
+      <Container maxWidth="lg">
       <div className={classes.todoForm}>
         <h1>App todo</h1>
 
@@ -52,6 +56,7 @@ function Todo () {
 
       </div>
     </Container>
+    </TodosContext.Provider>
   )
 
 }
