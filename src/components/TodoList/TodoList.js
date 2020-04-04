@@ -1,10 +1,11 @@
 import React from "react"
 import TodoItem from "../TodoItem/TodoItem";
-import {style} from './Todolist.style'
+import useStyle from './Todolist.style'
 
 function TodoList ({ todos }) {
+    const classes = useStyle();
     return (
-        <ul style={style.todoList}>
+        <ul className={classes.todoList}>
             {todos.map(todo => <TodoItem key={todo.id} {...todo} />)}
         </ul>
     )

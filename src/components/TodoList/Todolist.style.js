@@ -1,4 +1,6 @@
-export const style = {
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyle = makeStyles({
     todoList: {
         listStyleType: "none",
         padding: 0
@@ -9,6 +11,14 @@ export const style = {
     todoListItem: {
         marginBottom: 5,
         paddingBottom: 5,
-        borderBottom: '1px solid #ececec'
+        borderBottom: '1px solid #ececec',
+        '&.completed $itemTitle': {
+            textDecoration: "line-through"
+        }
+    },
+    itemTitle: {
+
     }
-}
+})
+
+export default useStyle;
