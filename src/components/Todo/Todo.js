@@ -1,8 +1,8 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useReducer} from "react";
 import TodoList from "../TodoList/TodoList"
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
-
+import reducer from "../../reducer"
 import useStyle from "./Todo.style";
 
 import {TodosContext} from "../../context"
@@ -10,54 +10,27 @@ import {TodosContext} from "../../context"
 function Todo () {
 
   const classes = useStyle();
-
-  const [todos, setTodos] = useState([]);
+  const [state, dispatch] = useReducer(reducer, JSON.parse(localStorage.getItem("todos")))
   const [title, setTitle] = useState('');
 
   useEffect(() => {
-    const todoList = localStorage.getItem("todos") || [];
-    setTodos(JSON.parse(todoList))
-  }, [])
-
-  useEffect(() => {
-    localStorage.setItem('todos', JSON.stringify(todos))
-  }, [todos])
+    localStorage.setItem('todos', JSON.stringify(state))
+  }, [state])
 
   const addTodo = e => {
     if(e.key === 'Enter') {
-      let newTodo = {
-        id: Date.now(),
-        title: title,
-        completed: false
-      }
-
-      setTodos([
-        ...todos,
-        newTodo
-      ])
-
+      dispatch({
+        type: 'add',
+        payload: title
+      })
       setTitle('');
     }
   }
-  const toggleTodo = id => {
-    const newTodos = todos.map(item => {
-      if(item.id === id){
-        item.completed = !item.completed;
-      }
-      return item;
-    })
-    
-    setTodos(newTodos);
-  }
- 
-  const removeTodo = id => {
-    const newTodos = todos.filter(item => item.id !== id);
-    setTodos(newTodos);
-  }
+
 
 
   return (
-    <TodosContext.Provider value={{toggleTodo, removeTodo}}>
+    <TodosContext.Provider value={dispatch}>
       <Container maxWidth="lg">
       <div className={classes.todoForm}>
         <h1>App todo</h1>
@@ -72,7 +45,7 @@ function Todo () {
           color="primary"
         />
 
-        <TodoList todos={todos}  />
+        <TodoList todos={state}  />
 
       </div>
     </Container>

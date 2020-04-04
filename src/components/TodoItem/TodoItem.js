@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useContext} from "react";
 import Checkbox from '@material-ui/core/Checkbox';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
@@ -8,7 +8,7 @@ import {TodosContext} from "../../context"
 
 function TodoItem ({id, title, completed}) {
   const classes = useStyle();
-  const {toggleTodo, removeTodo} = useContext(TodosContext)
+  const dispatch = useContext(TodosContext)
   const listItemClass = [classes.todoListItem];
 
   if(completed){
@@ -20,7 +20,10 @@ function TodoItem ({id, title, completed}) {
       <div>
         <Checkbox
           checked={completed}
-          onChange={() => toggleTodo(id)}
+          onChange={() => dispatch({
+            type: "toggle",
+            payload: id
+          })}
           color="primary"
           inputProps={{ 'aria-label': 'secondary checkbox' }}
         />
@@ -32,7 +35,10 @@ function TodoItem ({id, title, completed}) {
           color="primary" 
           aria-label="remov item" 
           component="span"
-          onClick={() => removeTodo(id)}
+          onClick={() => dispatch({
+            type: 'remove',
+            payload: id
+          })}
         >
           <DeleteIcon fontSize="small" color="primary" />
         </IconButton>
