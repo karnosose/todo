@@ -8,32 +8,19 @@ import {TodosContext} from "../../context"
 
 function TodoItem ({id, title, completed}) {
   const classes = useStyle();
-  const {todos, setTodos} = useContext(TodosContext)
-
-  const [checked, setChecked] = useState(completed)
+  const {toggleTodo, removeTodo} = useContext(TodosContext)
   const listItemClass = [classes.todoListItem];
 
-  if(checked){
+  if(completed){
     listItemClass.push("completed");
-  }
-
-  const changeCheckedStatus = (e) => {
-    completed = e.target.checked;
-    
-    setChecked(completed)
-  }
-
-  const removeTodo = id => {
-    const newTodos = todos.filter(item => item.id !== id);
-    setTodos(newTodos);
   }
 
   return (
     <li className={listItemClass.join(' ')}>
       <div>
         <Checkbox
-          checked={checked}
-          onChange={(e) => changeCheckedStatus(e)}
+          checked={completed}
+          onChange={() => toggleTodo(id)}
           color="primary"
           inputProps={{ 'aria-label': 'secondary checkbox' }}
         />

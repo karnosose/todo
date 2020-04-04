@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useEffect} from "react";
 import TodoList from "../TodoList/TodoList"
 import Container from '@material-ui/core/Container';
 import TextField from '@material-ui/core/TextField';
@@ -11,13 +11,17 @@ function Todo () {
 
   const classes = useStyle();
 
-  let todoList = [
-    { id: 1, title: 'todo1', completed: false },
-    { id: 2, title: 'todo2', completed: false}
-  ]
-
-  const [todos, setTodos] = useState(todoList);
+  const [todos, setTodos] = useState([]);
   const [title, setTitle] = useState('');
+
+  useEffect(() => {
+    const todoList = localStorage.getItem("todos") || [];
+    setTodos(JSON.parse(todoList))
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos))
+  }, [todos])
 
   const addTodo = e => {
     if(e.key === 'Enter') {
@@ -35,9 +39,25 @@ function Todo () {
       setTitle('');
     }
   }
-  const stateValue = {todos, setTodos}
+  const toggleTodo = id => {
+    const newTodos = todos.map(item => {
+      if(item.id === id){
+        item.completed = !item.completed;
+      }
+      return item;
+    })
+    
+    setTodos(newTodos);
+  }
+ 
+  const removeTodo = id => {
+    const newTodos = todos.filter(item => item.id !== id);
+    setTodos(newTodos);
+  }
+
+
   return (
-    <TodosContext.Provider value={stateValue}>
+    <TodosContext.Provider value={{toggleTodo, removeTodo}}>
       <Container maxWidth="lg">
       <div className={classes.todoForm}>
         <h1>App todo</h1>
