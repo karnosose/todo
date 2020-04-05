@@ -10,7 +10,8 @@ import {TodosContext} from "../../context"
 function Todo () {
 
   const classes = useStyle();
-  const [state, dispatch] = useReducer(reducer, JSON.parse(localStorage.getItem("todos")))
+  const todoData = localStorage.getItem("todos") ? JSON.parse(localStorage.getItem("todos")) : []; 
+  const [state, dispatch] = useReducer(reducer, todoData)
   const [title, setTitle] = useState('');
 
   useEffect(() => {
