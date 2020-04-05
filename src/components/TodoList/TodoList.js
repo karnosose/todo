@@ -1,12 +1,15 @@
-import React from "react"
+import React, {useContext} from "react"
 import TodoItem from "../TodoItem/TodoItem";
 import useStyle from './Todolist.style'
+import {TodosContext} from "../../context"
 
-function TodoList ({ todos }) {
+
+function TodoList () {
+    const {state} = useContext(TodosContext)
     const classes = useStyle();
     return (
         <ul className={classes.todoList}>
-            {todos.map(todo => <TodoItem key={todo.id} {...todo} />)}
+            {state.map(todo => <TodoItem key={todo.id} {...todo} />)}
         </ul>
     )
 }

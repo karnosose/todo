@@ -8,7 +8,7 @@ import {TodosContext} from "../../context"
 
 function TodoItem ({id, title, completed}) {
   const classes = useStyle();
-  const dispatch = useContext(TodosContext)
+  const {dispatch} = useContext(TodosContext);
   const listItemClass = [classes.todoListItem];
 
   if(completed){

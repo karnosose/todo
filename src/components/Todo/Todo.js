@@ -30,7 +30,7 @@ function Todo () {
 
 
   return (
-    <TodosContext.Provider value={dispatch}>
+    <TodosContext.Provider value={{dispatch, state}}>
       <Container maxWidth="lg">
       <div className={classes.todoForm}>
         <h1>App todo</h1>
@@ -45,7 +45,7 @@ function Todo () {
           color="primary"
         />
 
-        <TodoList todos={state}  />
+        <TodoList />
 
       </div>
     </Container>
